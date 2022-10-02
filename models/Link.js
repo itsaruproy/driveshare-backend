@@ -1,15 +1,16 @@
 const linksCollection = require("../db").db().collection("links")
 
 class Link {
-    constructor(gid, linkID) {
+    constructor(gid, linkID, folderID) {
         this.gid = gid
         this.linkID = linkID
+        this.folderID = folderID
     }
 
     save = () => {
         return new Promise(async (resolve, reject) => {
             try {
-                await linksCollection.insertOne({ gid: this.gid, linkID: this.linkID})
+                await linksCollection.insertOne({ gid: this.gid, linkID: this.linkID, folderID: this.folderID })
                 resolve()
             } catch(err) {
                 reject(err)

@@ -76,6 +76,7 @@ app.post("/getToken", async (req, res) => {
 })
 
 app.post("/createLink", async (req, res) => {
+    // Folder id needed where it is going to upload
     // Get the name for which it is uploading
     // Get the gid from the user
     // generate a random number or string
