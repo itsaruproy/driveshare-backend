@@ -32,3 +32,5 @@ class Link {
         })
     } 
 }
+
+module.exports = Link

@@ -5,6 +5,7 @@ require("dotenv").config()
 const { OAuth2Client } = require("google-auth-library")
 const User = require("./models/User")
 const Token = require("./models/Token")
+const Link = require("./models/Link")
 const upload = require("./drive/upload")
 app.use(express.json())
 const path = require("path")
@@ -91,16 +92,18 @@ app.post("/upload/:id", async (req, res) => {
         4. on finish uploading use the upload function
     
     */
+   try {
 
+        const linkDoc = await Link.findLinkByID(req.params.id)
+        const folderID = linkDoc.folderID
+        const { refreshToken } = await Token.findTokenByUserID(linkDoc.gid)
 
-    try {
-        const resp = await upload(path.join(__dirname, "reduxx.png"), "image/png", "1LSzKJVt8MK2c8vDHm2Ros3jTpbNkzHdF", process.env.REFRESH_TOKEN)
-        // console.log(resp)
+        const resp = await upload(path.join(__dirname, "reduxx.png"), "image/png", folderID, refreshToken)
         res.json({message: resp})
-    } catch(err) {
+   } catch(err) {
         console.log("file upload failed")
         res.json({message: err})
-    }
+   }
 
 })
 
