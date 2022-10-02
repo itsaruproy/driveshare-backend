@@ -1,4 +1,5 @@
 const express = require("express")
+const fs = require("fs")
 const app = express()
 require("dotenv").config()
 // const GoogleDrive = require("./drive")
@@ -6,6 +7,9 @@ const { OAuth2Client } = require("google-auth-library")
 const User = require("./models/User")
 const Token = require("./models/Token")
 const Link = require("./models/Link")
+const busboy = require("busboy")
+
+
 const upload = require("./drive/upload")
 app.use(express.json())
 const path = require("path")
@@ -98,8 +102,35 @@ app.post("/upload/:id", async (req, res) => {
         const folderID = linkDoc.folderID
         const { refreshToken } = await Token.findTokenByUserID(linkDoc.gid)
 
-        const resp = await upload(path.join(__dirname, "reduxx.png"), "image/png", folderID, refreshToken)
-        res.json({message: resp})
+        if(linkDoc && refreshToken) {
+            const bb = busboy({headers: req.headers})
+            let fileName = ''
+            let mimeType
+            let fpath = ''
+            bb.on("file", (_, file, info) => {
+                fileName = info.filename
+                mimeType = info.mimeType
+                const pathText = `/uploads/${fileName}`
+                fpath = path.join(__dirname, pathText)
+                file.pipe(fs.createWriteStream(fpath, {flags: 'a+'}))
+            })
+
+            bb.on("finish", async () => {
+                const resp = await upload(fpath, mimeType, folderID, refreshToken)
+                res.json({message: resp})
+            })
+
+            bb.on("error", () => {
+                res.json({ message: "File upload failed" })
+            })
+
+            req.pipe(bb)
+
+        } else {
+            res.json({ message: "No token found" })
+        }
+
+        
    } catch(err) {
         console.log("file upload failed")
         res.json({message: err})
