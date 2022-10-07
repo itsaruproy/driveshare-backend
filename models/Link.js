@@ -1,4 +1,4 @@
-const linksCollection = require("../db").db().collection("links")
+const linksCollection = require('../db').db().collection('links')
 
 class Link {
     constructor(gid, linkID, folderID) {
@@ -10,27 +10,53 @@ class Link {
     save = () => {
         return new Promise(async (resolve, reject) => {
             try {
-                await linksCollection.insertOne({ gid: this.gid, linkID: this.linkID, folderID: this.folderID })
+                await linksCollection.insertOne({
+                    gid: this.gid,
+                    linkID: this.linkID,
+                    folderID: this.folderID,
+                })
                 resolve()
-            } catch(err) {
+            } catch (err) {
                 reject(err)
             }
         })
     }
 
-    static findLinkByID = (link) => {
+    static findLinkByID = link => {
         return new Promise(async (resolve, reject) => {
             try {
                 const linkDoc = await linksCollection.findOne({ linkID: link })
-                if(!linkDoc) {
+                if (!linkDoc) {
                     reject()
                 }
                 resolve(linkDoc)
-            } catch(err) {
+            } catch (err) {
                 reject(err)
             }
         })
-    } 
+    }
+
+    static deleteLinkByID = link => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                await linksCollection.deleteOne({ linkID: link })
+                resolve()
+            } catch (err) {
+                reject(err)
+            }
+        })
+    }
+
+    static getAllLinksByID = gid => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let links = await linksCollection.find({ gid: gid })
+                resolve(links)
+            } catch (err) {
+                reject(err)
+            }
+        })
+    }
 }
 
 module.exports = Link
