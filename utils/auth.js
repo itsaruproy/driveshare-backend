@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken')
 */
 
 const auth = (req, res, next) => {
+    console.log(req.body)
     try {
         if (!req.body.token) {
             res.json({ message: 'No token found' })

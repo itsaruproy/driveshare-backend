@@ -18,7 +18,7 @@ app.get('/', (req, res) => res.json({ message: 'API working correctly' }))
 app.post('/getToken', userController.getTokenAndLogin)
 app.post('/link/create', auth, linkController.createLink)
 app.post('/link/delete/:id', auth, linkController.deleteLink)
-app.get('/link/get', auth, linkController.getAllUserLinks)
+app.post('/link/get', auth, linkController.getAllUserLinks)
 app.post('/upload/:id', driveController.uploadToDrive)
 
 module.exports = app
