@@ -10,12 +10,12 @@ class Link {
     save = () => {
         return new Promise(async (resolve, reject) => {
             try {
-                await linksCollection.insertOne({
+                let linkDoc = await linksCollection.insertOne({
                     gid: this.gid,
                     linkID: this.linkID,
                     folderID: this.folderID,
                 })
-                resolve()
+                resolve(linkDoc)
             } catch (err) {
                 reject(err)
             }
@@ -39,7 +39,9 @@ class Link {
     static deleteLinkByID = link => {
         return new Promise(async (resolve, reject) => {
             try {
-                await linksCollection.deleteOne({ linkID: link })
+                await linksCollection.deleteOne({
+                    linkID: link,
+                })
                 resolve()
             } catch (err) {
                 reject(err)
@@ -50,7 +52,7 @@ class Link {
     static getAllLinksByID = gid => {
         return new Promise(async (resolve, reject) => {
             try {
-                let links = await linksCollection.find({ gid: gid })
+                let links = await linksCollection.find({ gid: gid }).toArray()
                 resolve(links)
             } catch (err) {
                 reject(err)
