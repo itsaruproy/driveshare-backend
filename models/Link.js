@@ -1,10 +1,11 @@
 const linksCollection = require('../db').db().collection('links')
 
 class Link {
-    constructor(gid, linkID, folderID) {
+    constructor(gid, linkID, folderID, targetName) {
         this.gid = gid
         this.linkID = linkID
         this.folderID = folderID
+        this.targetName = targetName
     }
 
     save = () => {
@@ -14,6 +15,7 @@ class Link {
                     gid: this.gid,
                     linkID: this.linkID,
                     folderID: this.folderID,
+                    targetName: this.targetName,
                 })
                 resolve(linkDoc)
             } catch (err) {

@@ -30,7 +30,12 @@ exports.createLink = async (req, res) => {
     if (folderID && targetName) {
         try {
             let uniqueLinkString = uniqueAlphaNumericId()
-            let link = new Link(req.apiUser.gid, uniqueLinkString, folderID)
+            let link = new Link(
+                req.apiUser.gid,
+                uniqueLinkString,
+                folderID,
+                targetName
+            )
             const linkDoc = await link.save()
             res.json({ ...linkDoc, linkID: uniqueLinkString })
         } catch (err) {
