@@ -20,5 +20,6 @@ app.post('/link/create', auth, linkController.createLink)
 app.post('/link/delete/:id', auth, linkController.deleteLink)
 app.post('/link/get', auth, linkController.getAllUserLinks)
 app.post('/upload/:id', driveController.uploadToDrive)
+app.get('/upload/:id', driveController.getUploadInformation)
 
 module.exports = app

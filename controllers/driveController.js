@@ -56,3 +56,13 @@ exports.uploadToDrive = async (req, res) => {
         res.status(500).json({ message: err })
     }
 }
+
+exports.getUploadInformation = async (req, res) => {
+    try {
+        const linkDoc = await Link.findLinkByID(req.params.id)
+        console.log('Upload Information :', linkDoc)
+        res.json({ info: linkDoc })
+    } catch (err) {
+        res.status(500).json({ message: 'No information found' })
+    }
+}
