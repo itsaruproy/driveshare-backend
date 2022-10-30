@@ -8,13 +8,13 @@ const auth = (req, res, next) => {
     console.log(req.body)
     try {
         if (!req.body.token) {
-            res.json({ message: 'No token found' })
+            res.status(500).json({ message: 'No token found' })
             return
         }
         req.apiUser = jwt.verify(req.body.token, process.env.JWTSECRET) // Later we can use the gid and email from the req.apiUser
         next()
     } catch (err) {
-        res.json({ message: 'You are not authorized' })
+        res.status(500).json({ message: 'You are not authorized' })
     }
 }
 
