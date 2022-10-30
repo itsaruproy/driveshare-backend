@@ -44,15 +44,15 @@ exports.uploadToDrive = async (req, res) => {
             })
 
             bb.on('error', () => {
-                res.json({ message: 'File upload failed' })
+                res.status(500).json({ message: 'File upload failed' })
             })
 
             req.pipe(bb)
         } else {
-            res.json({ message: 'No token found' })
+            res.status(500).json({ message: 'No token found' })
         }
     } catch (err) {
         console.log('file upload failed')
-        res.json({ message: err })
+        res.status(500).json({ message: err })
     }
 }
