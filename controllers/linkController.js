@@ -7,7 +7,7 @@ exports.getAllUserLinks = async (req, res) => {
         console.log(links)
         res.json({ links: links })
     } catch (err) {
-        res.json({ message: 'Error retriving the links' })
+        res.status(500).json({ message: 'Error retriving the links' })
     }
 }
 
@@ -20,7 +20,7 @@ exports.deleteLink = async (req, res) => {
         await Link.deleteLinkByID(req.params.id)
         res.json({ message: 'Link deleted successfully' })
     } catch (err) {
-        res.json({ message: 'Failed to delete the link' })
+        res.status(500).json({ message: 'Failed to delete the link' })
     }
 }
 
@@ -42,7 +42,9 @@ exports.createLink = async (req, res) => {
             res.sendStatus(500).json({ message: 'Link creation failed' })
         }
     } else {
-        res.json({ message: 'Please provide appropriate information' })
+        res.status(500).json({
+            message: 'Please provide appropriate information',
+        })
     }
     // Folder id needed where it is going to upload
     // Get the name for which it is uploading
