@@ -31,6 +31,7 @@ exports.getTokenAndLogin = async (req, res) => {
             }
         } catch (err) {
             console.log(err)
+            res.status(500).json({ message: 'Something went wrong' })
         }
 
         // console.log(new Date(tokens.expiry_date))
@@ -48,7 +49,7 @@ exports.getTokenAndLogin = async (req, res) => {
         })
     } catch (err) {
         console.log(err)
-        res.json({ message: 'Token expired try logging again' })
+        res.status(500).json({ message: 'Token expired try logging again' })
     }
     // Save this token into database with the users data inside of it from cookies
 }
