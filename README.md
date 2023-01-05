@@ -14,9 +14,9 @@ To get started with the backend, follow these steps:
 2. Install dependencies: `npm install`
 3. Create a `.env` file in the root directory and add the following environment variables:
    - `CONNECTIONSTRING`: The connection string for your MongoDB database.
-   - `GOOGLE_CLIENT_ID`: The client ID of your OAuth app.
-   - `GOOGLE_CLIENT_SECRET`: The client secret of your OAuth app.
-   - `GOOGLE_REFRESH_TOKEN`: The refresh token obtained during the OAuth app setup.
+   - `CLIENT_ID`: The client ID of your OAuth app.
+   - `CLIENT_SECRET`: The client secret of your OAuth app.
+   - `REFRESH_TOKEN`: The refresh token obtained during the OAuth app setup.
    - `JWTSECRET`: A random and secure phrase for JWT authentication.
    - `PORT`: The port on which the server will be reachable (for example `4000`).
 4. Start the server: `npm start`
