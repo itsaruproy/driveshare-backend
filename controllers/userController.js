@@ -28,6 +28,24 @@ exports.getTokenAndLogin = async (req, res) => {
                 await userToken.save()
             } else {
                 // Check refresh tokens date from Tokens collection and if necessary update it
+                let token = await Token.findTokenByUserID(userDetails.sub)
+                const oneDayInMilliseconds = 86400000
+                const diffInMilliseconds = Math.abs(
+                    new Date().getTime() - new Date(token.tokenDate).getTime()
+                )
+
+                if (diffInMilliseconds / oneDayInMilliseconds >= 6) {
+                    try {
+                        let resp = Token.deleteTokenByUserID(userDetails.sub)
+                        let userToken = new Token(
+                            userDetails.sub,
+                            tokens.refresh_token
+                        )
+                        await userToken.save()
+                    } catch (err) {
+                        throw new Error('Unexpected error')
+                    }
+                }
             }
         } catch (err) {
             console.log(err)
