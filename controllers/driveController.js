@@ -40,6 +40,14 @@ exports.uploadToDrive = async (req, res) => {
                     folderID,
                     refreshToken
                 )
+                try {
+                    fs.unlink(fpath, () => {
+                        console.log('File has been deleted')
+                    })
+                } catch (e) {
+                    console.log('Error deleting file')
+                }
+
                 res.json({ message: resp })
             })
 
